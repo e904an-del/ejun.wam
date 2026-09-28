@@ -1,0 +1,39 @@
+body {
+    margin: 0px;
+    background-color: white;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.index{
+    border-right: 30px solid rgb(187, 255, 0);
+    min-height: 100vh;
+}
+.page{
+    display:grid;
+    grid-template-columns: 300px 4fr;
+}
+.index ol{
+    list-style:none;
+    margin:0px;
+    padding:0px;
+}
+
+.index li{
+    padding: 10px 16px;
+    border-bottom: 1px solid rgb(9, 9, 7);
+}
+
+.index li a{
+    text-decoration: none;
+    color: rgb(9, 9, 7);
+}
+
+.content{
+    background: black;
+    color: white;
+    padding: 24px 32px;
+    margin: 0;
+}
+.content a {
+    color: white;
+}
