@@ -1,0 +1,328 @@
+body {
+  background: radial-gradient(
+    ellipse at 65% 60%,
+    #FFE1EB 1%,
+    #EBDDFB 45%,
+    #D8E9FF 80%,
+    #FAF9F5 100%
+  );
+
+  background-repeat: no-repeat;
+  min-height: 650px;
+  color: #010101;
+  margin: 40px;
+}
+
+.canvas {
+  position: relative;
+  width: 100%;
+  min-height: 600px;
+}
+
+/* 첫 번째 R 그룹 */
+.letter {
+  position: absolute;
+  width: 220px;
+  height: 300px;
+}
+
+/* R의 위치 */
+.geometric {
+  top: 50px;
+  left: 100px;
+}
+
+/* 세로획 */
+.geometric .stem {
+  position: absolute;
+  width: 35px;
+  height: 240px;
+  background: rgb(238, 32, 231);
+  top: 0;
+  left: 0;
+}
+
+/* 둥근 부분 */
+.geometric .bowl {
+  position: absolute;
+  width: 150px;
+  height: 135px;
+  background: rgb(238, 32, 231);
+  border-radius: 0 70px 70px 0;
+  top: 0;
+  left: 25px;
+}
+
+/* 대각선 다리 */
+.geometric .leg {
+  position: absolute;
+  width: 38px;
+  height: 150px;
+  background:  rgb(238, 32, 231);
+  transform: rotate(-35deg);
+  transform-origin: top center;
+  top: 110px;
+  left: 105px;
+}
+
+.geometric::before {
+  content: "";
+  position: absolute;
+
+  width: 260px;
+  height: 280px;
+
+  background: #C7FF87;
+
+  top: -20px;
+  left: -20px;
+
+  z-index: -1;
+}
+
+/* R 02: Bubble */
+
+.bubble {
+  position: absolute;
+  top: 50px;
+  left: 500px;
+  width: 240px;
+  height: 280px;
+  z-index: 10;
+}
+
+.bubble-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 32px);
+  grid-template-rows: repeat(7, 32px);
+  gap: 0;
+}
+
+.bubble-grid span {
+  width: 50px;
+  height: 50px;
+  background: #FF9ED8;
+  border: 10px solid #FF3030;
+  border-radius: 50%;
+  box-sizing: border-box;
+  opacity: 0;
+}
+
+/* R shape */
+.bubble-grid span:nth-child(6n + 1),
+.bubble-grid span:nth-child(2),
+.bubble-grid span:nth-child(3),
+.bubble-grid span:nth-child(4),
+.bubble-grid span:nth-child(5),
+.bubble-grid span:nth-child(12),
+.bubble-grid span:nth-child(18),
+.bubble-grid span:nth-child(20),
+.bubble-grid span:nth-child(21),
+.bubble-grid span:nth-child(22),
+.bubble-grid span:nth-child(23),
+.bubble-grid span:nth-child(28),
+.bubble-grid span:nth-child(34),
+.bubble-grid span:nth-child(35),
+.bubble-grid span:nth-child(41),
+.bubble-grid span:nth-child(42) {
+  opacity: 1;
+}
+
+
+/* R 03 — PIXEL */
+
+.pixel {
+  top: 400px;
+  left: 200px;
+  width: 210px;
+  height: 400px;
+}
+
+.pixel-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 18px);
+  grid-template-rows: repeat(7, 18px);
+  gap: 3px;
+}
+
+.pixel-grid span {
+  width: 18px;
+  height: 18px;
+  background: #111111;
+}
+
+/* R 03 — Pixel */
+
+.pixel-grid span {
+  background: transparent;
+}
+
+/* Visible pixels forming R */
+.pixel-grid span:nth-child(1),
+.pixel-grid span:nth-child(2),
+.pixel-grid span:nth-child(3),
+.pixel-grid span:nth-child(4),
+
+.pixel-grid span:nth-child(6),
+.pixel-grid span:nth-child(10),
+
+.pixel-grid span:nth-child(11),
+.pixel-grid span:nth-child(15),
+
+.pixel-grid span:nth-child(16),
+.pixel-grid span:nth-child(17),
+.pixel-grid span:nth-child(18),
+.pixel-grid span:nth-child(19),
+
+.pixel-grid span:nth-child(21),
+.pixel-grid span:nth-child(24),
+
+.pixel-grid span:nth-child(26),
+.pixel-grid span:nth-child(29),
+
+.pixel-grid span:nth-child(31),
+.pixel-grid span:nth-child(35) {
+  background: #0697ff;
+}
+
+.stripe-fill {
+  width: 220px;
+  height: 260px;
+  border-radius: 90px;
+
+  background: repeating-linear-gradient(
+    to bottom,
+    rgb(235, 8, 175) 0px 4px,
+    transparent 4px 10px
+  );
+
+  clip-path: polygon(
+    0% 0%,
+    65% 0%,
+    95% 15%,
+    95% 40%,
+    65% 55%,
+    100% 100%,
+    75% 100%,
+    45% 55%,
+    20% 55%,
+    20% 100%,
+    0% 100%
+  );
+}
+
+.letter.striped {
+  position: absolute;
+  top: 400px;
+  left: 550px;
+}
+
+/* R 05: Modular */
+
+.modular {
+  position: absolute;
+  top: 50px;
+  left: 1050px;
+  width: 260px;
+  height: 260px;
+  border-radius: 60px;
+}
+
+.mod-stem {
+  position: absolute;
+  width: 30px;
+  height: 220px;
+  background: #1847D5;
+  top: 0;
+  left: 0;
+  border-radius: 60px;
+}
+
+.mod-circle {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  background: #1847D5;
+  border-radius: 50%;
+  top: 0;
+  left: 25px;
+  border-radius: 60px;
+}
+
+.mod-counter {
+  position: absolute;
+  width: 65px;
+  height: 65px;
+  background: #F5F4F0;
+  border-radius: 50%;
+  top: 37px;
+  left: 62px;
+}
+
+.mod-leg {
+  position: absolute;
+  width: 32px;
+  height: 145px;
+  background: #FF633F;
+  top: 110px;
+  left: 115px;
+  transform: rotate(-40deg);
+  transform-origin: top center;
+}
+
+/* R 06: Fragmented */
+
+.fragmented {
+  position: absolute;
+  top: 350px;
+  left: 1000px;
+  width: 280px;
+  height: 270px;
+}
+
+.frag-stem {
+  position: absolute;
+  width: 22px;
+  height: 180px;
+  background: #27c907ad;
+  top: 20px;
+  left: 0;
+}
+
+.frag-top {
+  position: absolute;
+  width: 110px;
+  height: 22px;
+  background: #27c907ad;
+  top: 0;
+  left: 41px;
+}
+
+.frag-bowl {
+  position: absolute;
+  width: 22px;
+  height: 68px;
+  background:  #27c907ad;
+  top: 36px;
+  left: 153px;
+}
+
+.frag-middle {
+  position: absolute;
+  width: 92px;
+  height: 19px;
+  background: #27c907ad;
+  top: 118px;
+  left: 41px;
+}
+
+.frag-leg {
+  position: absolute;
+  width: 24px;
+  height: 94px;
+  background:  #27c907ad;
+  top: 140px;
+  left: 145px;
+  transform: rotate(-33deg);
+  transform-origin: top center;
+}
