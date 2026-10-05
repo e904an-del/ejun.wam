@@ -1,0 +1,154 @@
+body {
+  background: radial-gradient(
+    ellipse at 65% 60%,
+    #FFE1EB 1%,
+    #EBDDFB 45%,
+    #D8E9FF 80%,
+    #FAF9F5 100%
+  );
+
+  background-repeat: no-repeat;
+  min-height: 650px;
+  color: #010101;
+  margin: 40px;
+}
+
+.canvas {
+  position: relative;
+  width: 100%;
+  min-height: 600px;
+}
+
+
+/* R 02: Bubble */
+
+.bubble {
+  position: absolute;
+  top: 265px;
+  left: 550px;
+  width: 240px;
+  height: 280px;
+  z-index: 10;
+}
+
+.bubble-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 32px);
+  grid-template-rows: repeat(7, 32px);
+  gap: 0;
+}
+
+.bubble-grid span {
+  width: 50px;
+  height: 50px;
+  background: #FF9ED8;
+  border: 10px solid #FF3030;
+  border-radius: 50%;
+  box-sizing: border-box;
+  opacity: 0;
+}
+
+/* R shape */
+.bubble-grid span:nth-child(6n + 1),
+.bubble-grid span:nth-child(2),
+.bubble-grid span:nth-child(3),
+.bubble-grid span:nth-child(4),
+.bubble-grid span:nth-child(5),
+.bubble-grid span:nth-child(12),
+.bubble-grid span:nth-child(18),
+.bubble-grid span:nth-child(20),
+.bubble-grid span:nth-child(21),
+.bubble-grid span:nth-child(22),
+.bubble-grid span:nth-child(23),
+.bubble-grid span:nth-child(28),
+.bubble-grid span:nth-child(34),
+.bubble-grid span:nth-child(35),
+.bubble-grid span:nth-child(41),
+.bubble-grid span:nth-child(42) {
+  opacity: 1;
+}
+
+/* EXPLOSIVE BUBBLE MOTION */
+
+.bubble-grid span {
+  transform-origin: center;
+}
+
+/* Hover하면 서로 다른 모션 실행 */
+
+.bubble:hover .bubble-grid span:nth-child(5n + 1) {
+  animation: burst-a 1.1s ease-in-out infinite alternate;
+}
+
+.bubble:hover .bubble-grid span:nth-child(5n + 2) {
+  animation: burst-b 1.7s ease-in-out infinite alternate;
+}
+
+.bubble:hover .bubble-grid span:nth-child(5n + 3) {
+  animation: burst-c 0.8s ease-in-out infinite alternate;
+}
+
+.bubble:hover .bubble-grid span:nth-child(5n + 4) {
+  animation: burst-d 1.4s ease-in-out infinite alternate;
+}
+
+.bubble:hover .bubble-grid span:nth-child(5n) {
+  animation: burst-e 2s ease-in-out infinite alternate;
+}
+
+/* 원마다 다른 방향으로 폭발 */
+
+@keyframes burst-a {
+  0% {
+    transform: scale(1);
+      opacity: 1;
+  }
+  100% {
+    transform: translate(-100px, -120px) scale(5);
+      opacity: 0.5;
+  }
+}
+
+@keyframes burst-b {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(150px, -70px) scale(3);
+    opacity: 0.5;
+  }
+}
+
+@keyframes burst-c {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-80px, 160px) scale(6);
+    opacity: 0.5;
+  }
+}
+
+@keyframes burst-d {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(130px, 130px) scale(4);
+    opacity: 0.5;
+  }
+}
+
+@keyframes burst-e {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-180px, 40px) scale(7);
+    opacity: 0.5;
+  }
+}
