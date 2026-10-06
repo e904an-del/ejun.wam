@@ -8,7 +8,7 @@ body {
   );
 
   background-repeat: no-repeat;
-  min-height: 650px;
+  min-height: 100vh;
   color: #010101;
   margin: 0px;
 }
