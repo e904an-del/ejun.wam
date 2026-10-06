@@ -7,8 +7,8 @@ body {
     #FAF9F5 100%
   );
 
-  background-repeat: no-repeat;
-  min-height: 650px;
+  background-repeat: repeat;
+  min-height: 800px;
   color: #010101;
   margin: 40px;
 }
