@@ -7,16 +7,16 @@ body {
     #FAF9F5 100%
   );
 
-  background-repeat: repeat;
-  min-height: 800px;
+  background-repeat: no-repeat;
+  min-height: 100vh;
   color: #010101;
-  margin: 40px;
+  margin: 0px;
 }
 
 .canvas {
   position: relative;
   width: 100%;
-  min-height: 800px;
+  min-height: 100vh;
 }
 
 /* 첫 번째 R 그룹 */
