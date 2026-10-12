@@ -1,0 +1,35 @@
+body {
+  margin: 0;
+  background: #53c44e;
+  font-family: monospace, Arial, sans-serif;
+  overflow: hidden;
+}
+
+.container {
+  height: 39vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 5vh;
+}
+
+.word {
+  color:antiquewhite;
+  text-shadow: 1px 1px 10px #101bef;
+  display: flex;
+  cursor: pointer;
+  user-select: none;
+}
+
+.word span {
+  display: inline-block;
+  font-size: 8vw;
+  font-weight: bold;
+
+  transform-origin: top;
+  transition: transform 1.5s ease-in-out;
+}
+
+.word.chaos span {
+  transform: scaleY(5);
+}

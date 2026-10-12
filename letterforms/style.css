@@ -19,20 +19,20 @@ body {
   min-height: 100vh;
 }
 
-/* 첫 번째 R 그룹 */
+
 .letter {
   position: absolute;
   width: 220px;
   height: 300px;
 }
 
-/* R의 위치 */
+
 .geometric {
   top: 50px;
   left: 100px;
 }
 
-/* 세로획 */
+
 .geometric .stem {
   position: absolute;
   width: 35px;
@@ -42,7 +42,7 @@ body {
   left: 0;
 }
 
-/* 둥근 부분 */
+
 .geometric .bowl {
   position: absolute;
   width: 150px;
@@ -108,7 +108,7 @@ body {
   opacity: 0;
 }
 
-/* R shape */
+
 .bubble-grid span:nth-child(6n + 1),
 .bubble-grid span:nth-child(2),
 .bubble-grid span:nth-child(3),
@@ -129,7 +129,7 @@ body {
 }
 
 
-/* R 03 — PIXEL */
+
 
 .pixel {
   top: 400px;
@@ -151,13 +151,13 @@ body {
   background: #111111;
 }
 
-/* R 03 — Pixel */
+
 
 .pixel-grid span {
   background: transparent;
 }
 
-/* Visible pixels forming R */
+
 .pixel-grid span:nth-child(1),
 .pixel-grid span:nth-child(2),
 .pixel-grid span:nth-child(3),
@@ -217,7 +217,7 @@ body {
   left: 550px;
 }
 
-/* R 05: Modular */
+
 
 .modular {
   position: absolute;
@@ -270,7 +270,7 @@ body {
   transform-origin: top center;
 }
 
-/* R 06: Fragmented */
+
 
 .fragmented {
   position: absolute;
