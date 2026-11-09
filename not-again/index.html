@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NOT AGAIN.</title>
+
+  <!-- Fallback condensed font, used only until your PP Formula files are in /fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page">
+
+    <header class="site-header">
+      <!-- The title also works as "reset all filters" -->
+      <h1 class="title">
+        <button type="button" id="reset-all" class="title-button" aria-label="NOT AGAIN. Reset all filters"><img src="images/title.png" alt="NOT AGAIN."></button>
+      </h1>
+
+      <button type="button" class="about-link" id="about-open" aria-expanded="false" aria-controls="about">ABOUT</button>
+
+      <!-- Switch between the text archive and the image archive -->
+      <div class="mode-toggle" role="group" aria-label="View">
+        <button type="button" class="mode-button" data-mode="text" aria-pressed="false">TEXT</button>
+        <button type="button" class="mode-button" data-mode="image" aria-pressed="true">IMAGE</button>
+      </div>
+
+      <nav class="filters" aria-label="Filter frustrations">
+        <div class="filter-row" role="group" aria-label="Type" id="type-filters"></div>
+        <div class="filter-row" role="group" aria-labelledby="blame-label">
+          <span class="filter-label" id="blame-label">WHO TO BLAME</span>
+          <div class="filter-row-buttons" id="blame-filters"></div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="archive" id="archive" aria-label="Archive of frustrations">
+      <!-- Items are created by script.js from the ITEMS list -->
+    </main>
+
+    <!-- Hover note: tells you what an image is before you click it -->
+    <div class="item-note" id="item-note" aria-hidden="true" hidden>
+      <p class="item-note-title" id="item-note-title"></p>
+      <p class="item-note-meta" id="item-note-meta"></p>
+    </div>
+
+    <!-- About page (opens over the archive, under the header) -->
+    <section class="about" id="about" aria-labelledby="about-heading" hidden>
+      <div class="about-inner">
+        <h2 class="about-heading" id="about-heading">An archive of small, everyday frustrations.</h2>
+
+        <div class="about-text">
+          <p>NOT AGAIN. collects the tiny moments that ruin a minute, not a life: the bus doors closing in front of you, the download failing at 99%, the remote just out of reach.</p>
+          <p>None of them matter. All of them feel personal. Collected together, they become a portrait of how ordinary days actually go.</p>
+          <p>The bigger the text, the bigger the frustration.</p>
+        </div>
+
+        <div class="about-key">
+          <h3 class="about-key-title">TYPE</h3>
+          <p class="about-key-text">What kind of frustration it is. One moment can be more than one type.</p>
+          <div class="about-key-row" id="about-types"></div>
+
+          <h3 class="about-key-title">WHO TO BLAME</h3>
+          <p class="about-key-text">Who you would like to blame for it. Not always fair.</p>
+          <div class="about-key-row" id="about-blames"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lightbox: filled in by script.js when an item is clicked -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="card-title" hidden>
+      <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
+
+      <!-- The card itself (clicking it closes it) -->
+      <article class="card" id="card">
+        <div class="card-inner" id="card-inner">
+          <figure class="card-media" id="card-media"></figure>
+
+          <div class="card-text">
+            <h2 class="card-title" id="card-title"></h2>
+            <div class="card-tags" id="card-types"></div>
+            <div class="card-tags card-blame">
+              <span class="card-label">WHO TO BLAME</span>
+              <span id="card-blame"></span>
+            </div>
+            <p class="card-description" id="card-description"></p>
+          </div>
+        </div>
+      </article>
+
+      <!-- Controls sit just outside the card -->
+      <div class="card-controls" id="card-controls">
+        <button type="button" class="card-control card-close" id="card-close">CLOSE ×</button>
+        <div class="card-nav">
+          <button type="button" class="card-control" id="card-prev">← PREV</button>
+          <button type="button" class="card-control" id="card-next">NEXT →</button>
+        </div>
+      </div>
+    </div>
+
+    <p class="visually-hidden" id="status" aria-live="polite"></p>
+  </div>
+
+  <!-- ===== CAPTCHA (sits on top of the whole site) ===== -->
+  <div class="captcha-overlay" id="captcha">
+    <div class="captcha-box" role="dialog" aria-modal="true" aria-labelledby="captcha-heading">
+
+      <div class="captcha-bar">
+        <span id="captcha-heading">SECURITY CHECK</span>
+        <button type="button" class="captcha-skip" id="captcha-skip">SKIP</button>
+      </div>
+
+      <!-- STEP 1: type the text -->
+      <form class="captcha-step" id="captcha-step-1" novalidate>
+        <img class="captcha-image" src="images/captcha.png" alt="CAPTCHA: distorted text on a noisy background">
+        <label class="captcha-text" for="captcha-input">Type the text you see above.</label>
+        <div class="captcha-row">
+          <input class="captcha-input" id="captcha-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false">
+          <button type="submit" class="captcha-button">VERIFY</button>
+        </div>
+        <p class="captcha-error" id="captcha-error" aria-live="assertive"></p>
+      </form>
+
+      <!-- STEP 2: confirm -->
+      <div class="captcha-step" id="captcha-step-2" hidden>
+        <p class="captcha-statement">I'm not frustrated.</p>
+        <label class="captcha-check">
+          <input type="checkbox" id="captcha-checkbox">
+          <span>I confirm that I am not frustrated.</span>
+        </label>
+      </div>
+
+      <!-- STEP 3: are you sure? -->
+      <div class="captcha-step" id="captcha-step-3" hidden>
+        <p class="captcha-statement" id="captcha-question">Are you sure?</p>
+        <div class="captcha-row" id="captcha-choices">
+          <button type="button" class="captcha-button" id="captcha-yes">YES</button>
+          <button type="button" class="captcha-button" id="captcha-no">NO</button>
+        </div>
+        <p class="captcha-result" id="captcha-result" aria-live="assertive" hidden></p>
+        <button type="button" class="captcha-enter" id="captcha-enter" hidden><img src="images/title.png" alt="NOT AGAIN."></button>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

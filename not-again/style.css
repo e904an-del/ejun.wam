@@ -1,0 +1,1071 @@
+/* =========================================================
+   NOT AGAIN. — style.css
+   ========================================================= */
+
+/* ---------- 1. Fonts ----------
+   Put your PP Formula files in the /fonts folder.
+   If your file names are different, change the url(...) paths below. */
+@font-face {
+  font-family: "PP Formula Condensed";
+  src: url("fonts/PPFormula-CondensedRegular.woff2") format("woff2"),
+       url("fonts/PPFormula-CondensedRegular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PP Formula Condensed";
+  src: url("fonts/PPFormula-CondensedMedium.woff2") format("woff2"),
+       url("fonts/PPFormula-CondensedMedium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- 2. Global settings ---------- */
+:root {
+  --black: #111111;
+  --white: #ffffff;
+  --font: "PP Formula Condensed", "Barlow Condensed", "Arial Narrow", sans-serif;
+
+  /* The Figma frame is 1516px wide and 984px tall.
+     Every position/size in script.js is in those Figma pixels. */
+  --design-width: 1516;
+  --design-height: 984;
+
+  /* 1 "u" = 1 Figma pixel. The canvas is built at the real Figma size
+     and script.js scales the whole thing at once with --scale. */
+  --u: 1px;
+  --scale: 1;
+
+  --speed: 0.35s;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;              /* single screen: no scrolling */
+  background: var(--white);
+  color: var(--black);
+  font-family: var(--font);
+}
+
+/* The page is your Figma frame, scaled to fit the window.
+   It stays at the top and is centered left/right; any extra space is plain white. */
+.page {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: calc(var(--canvas-width, 1516) * 1px);   /* set by script.js to match the window */
+  height: calc(var(--canvas-height, 984) * 1px); /* set by script.js to match the window */
+  overflow: hidden;
+  transform-origin: top center;
+  transform: translateX(-50%) scale(var(--scale));
+}
+
+/* ---------- 3. Header ---------- */
+.site-header {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: calc(var(--u) * 130);
+  z-index: 100;
+  pointer-events: none;          /* lets clicks pass through empty header space */
+}
+
+.title {
+  position: absolute;
+  left: calc(var(--u) * 53);       /* same margin as the filters on the right */
+  top: calc(var(--u) * 38);        /* same top as the first filter row */
+  margin: 0;
+  pointer-events: auto;
+}
+
+.title-button {
+  display: block;
+  width: calc(var(--u) * 236);      /* height = both filter rows (72) */
+  padding: 0;
+  border: none;
+  background: none;              /* the title is an image now (images/title.png) */
+  cursor: pointer;
+}
+
+.title-button img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.filters {
+  position: absolute;
+  right: calc(var(--u) * 53);
+  top: calc(var(--u) * 38);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: calc(var(--u) * 12);
+  pointer-events: auto;
+}
+
+.filter-row,
+.filter-row-buttons {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 2);
+}
+
+.filter-label {
+  margin-right: calc(var(--u) * 10);
+  font-size: calc(var(--u) * 15);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.filter-button {
+  height: calc(var(--u) * 30);
+  padding: 0 calc(var(--u) * 7);
+  border: 1px solid var(--black);
+  border-radius: calc(var(--u) * 14);
+  background: var(--white);
+  color: var(--black);
+  font-family: var(--font);
+  font-size: calc(var(--u) * 15);
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  box-shadow: 0 calc(var(--u) * 2) calc(var(--u) * 3) rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition: background var(--speed), color var(--speed);
+}
+
+.filter-button:hover {
+  background: #ececec;
+}
+
+/* Selected filter */
+.filter-button[aria-pressed="true"] {
+  background: var(--black);
+  color: var(--white);
+}
+
+/* TYPE filters: rounded, always in their category color */
+.filter-button--type {
+  border: 1.5px solid var(--cat-color);
+}
+
+.filter-button--type[aria-pressed="true"] {
+  background: var(--cat-color);
+  color: var(--on-cat-color);
+}
+
+/* WHO TO BLAME filters: square corners, black — a different kind of label */
+/* ABOUT link, next to the title */
+.about-link {
+  /* sits on the second filter row line: same top and height as the tags */
+  position: absolute;
+  left: calc(var(--u) * 309);
+  top: calc(var(--u) * 80);
+  display: flex;
+  align-items: center;
+  height: calc(var(--u) * 30);
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--black);
+  font-family: var(--font);
+  font-size: calc(var(--u) * 15);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-decoration: underline;
+  text-underline-offset: calc(var(--u) * 3);
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.about-link:hover,
+.about-link[aria-expanded="true"] {
+  text-decoration-thickness: 2px;
+}
+
+/* TEXT / IMAGE switch, next to ABOUT */
+.mode-toggle {
+  position: absolute;
+  left: calc(var(--u) * 361);
+  top: calc(var(--u) * 80);
+  display: flex;
+  gap: calc(var(--u) * 2);
+  pointer-events: auto;
+}
+
+.mode-button {
+  /* same pill as the WHO TO BLAME tags */
+  height: calc(var(--u) * 30);
+  padding: 0 calc(var(--u) * 9);
+  border: 1px solid var(--black);
+  border-radius: calc(var(--u) * 14);
+  background: var(--white);
+  color: var(--black);
+  font-family: var(--font);
+  font-size: calc(var(--u) * 15);
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  box-shadow: 0 calc(var(--u) * 2) calc(var(--u) * 3) rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.mode-button:hover {
+  background: #ececec;
+}
+
+/* the view you're in: black */
+.mode-button[aria-pressed="true"] {
+  background: var(--black);
+  color: var(--white);
+}
+
+.mode-button:focus-visible {
+  outline: 2px solid var(--black);
+  outline-offset: 3px;
+}
+
+.about-link:focus-visible {
+  outline: 2px solid var(--black);
+  outline-offset: 3px;
+}
+
+/* ---------- 4. Archive ---------- */
+.archive {
+  position: absolute;
+  inset: 0;                      /* fills the whole frame, under the header */
+  overflow: hidden;
+}
+
+/* Every frustration (text box or image) */
+.item {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition:
+    opacity var(--speed) ease,
+    visibility var(--speed) ease,
+    background var(--speed) ease,
+    color var(--speed) ease,
+    transform var(--speed) ease,
+    translate 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+    scale 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); /* filters: items gather to the center */
+}
+
+/* Text box */
+.item--text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--black);
+  background: var(--white);
+  font-weight: 400;
+  line-height: 1.2;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: pre;               /* keeps the exact line breaks written in script.js */
+  letter-spacing: -0.005em;
+}
+
+/* Default: plain black border. Hover: the border takes the category color
+   with a soft blur, a faint glow and a small shadow. Text stays black.
+   --cat-color is set per item in script.js (first TYPE tag). */
+.item--text {
+  border-color: var(--black) !important;
+  box-shadow: none;
+  transition:
+    opacity var(--speed) ease,
+    visibility var(--speed) ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    translate 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+    scale 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.item--text:hover,
+.item--text:focus-visible {
+  border-color: var(--cat-color, var(--black)) !important;
+  box-shadow:
+    0 0 3px color-mix(in srgb, var(--cat-color, #000) 95%, transparent),   /* soft blur on the line */
+    0 0 14px color-mix(in srgb, var(--cat-color, #000) 65%, transparent),  /* color glow */
+    0 0 30px color-mix(in srgb, var(--cat-color, #000) 30%, transparent),  /* wider, fainter glow */
+    3px 5px 10px rgba(0, 0, 0, 0.18);                                       /* drop shadow */
+}
+
+/* ---------- Image-only version (IMAGE_MODE in script.js) ----------
+   The photo covers the text box. On hover the photo gets its category glow,
+   and a text note appears on top of it. */
+/* The photo itself has no box: no border, no background, no glow.
+   The glowing text box (.item-hover-text--box) appears on hover instead. */
+.item--text.item--photo {
+  border-color: transparent !important;
+  background: transparent;
+}
+
+.item--text.item--photo:hover,
+.item--text.item--photo:focus-visible {
+  border-color: transparent !important;
+  box-shadow: none;
+}
+
+.item-photo {
+  position: absolute;
+  inset: -1px;                   /* covers the (hidden) border too */
+  display: block;
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
+  object-fit: cover;
+  transition: opacity 0.2s ease;
+}
+
+/* Cut-out photo (transparent PNG, cutout: true): whole object, no crop, no background */
+.item--cutout {
+  background: transparent !important;
+}
+
+.item--cutout .item-photo {
+  object-fit: contain;
+}
+
+/* frame: true — thin black line around the photo (image view) */
+.item--frame .item-photo {
+  outline: 1px solid var(--black);
+  outline-offset: -1px;
+}
+
+.item--cutout:hover,
+.item--cutout:focus-visible {
+  background: var(--white) !important;
+}
+
+.item-photo--empty {
+  background: var(--empty-gray, #bfbfbf);
+}
+
+/* Hover: the photo disappears and only the text box is left */
+.item--photo:hover .item-photo,
+.item--photo:focus-visible .item-photo {
+  opacity: 0;
+}
+
+/* Same for the cut-out images: the image goes, its text appears in its place */
+.item-hover-text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: max(100%, 180px);       /* small images still get a readable box */
+  min-height: 100%;
+  padding: 8px;
+  border: 1.5px solid var(--cat-color, var(--black));
+  background: var(--white);
+  box-shadow:
+    0 0 3px color-mix(in srgb, var(--cat-color, #000) 95%, transparent),
+    0 0 14px color-mix(in srgb, var(--cat-color, #000) 65%, transparent),
+    3px 5px 10px rgba(0, 0, 0, 0.18);
+  line-height: 1.2;
+  text-align: center;
+  text-transform: uppercase;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.item--image img {
+  transition: opacity 0.2s ease;
+}
+
+.item--image:hover .item-hover-text,
+.item--image:focus-visible .item-hover-text,
+.item--photo:hover .item-hover-text,
+.item--photo:focus-visible .item-hover-text {
+  opacity: 1;
+}
+
+/* Text box for photos: exactly the Figma box (size and line breaks) */
+.item-hover-text--box {
+  min-height: 0;
+  padding: 0;
+  border-width: 1px;
+  white-space: pre;
+}
+
+.item--image:hover:has(.item-hover-text) img,
+.item--image:focus-visible:has(.item-hover-text) img {
+  opacity: 0;
+}
+
+/* no zoom on images in the image-only version */
+.item--image:has(.item-hover-text):hover {
+  transform: none;
+}
+
+/* Image */
+.item--image img,
+.item--image .placeholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.item--image:hover {
+  transform: scale(1.03);
+}
+
+/* Shown until you add the real image file */
+.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border: 1px dashed #999;
+  background: rgba(0, 0, 0, 0.06); /* see-through so overlapping text stays visible */
+  color: #666;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 11px;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* Hovered or focused item comes to the front */
+.item:hover,
+.item:focus-visible {
+  z-index: 90 !important;
+}
+
+.item:focus-visible,
+.filter-button:focus-visible,
+.title-button:focus-visible {
+  outline: 2px solid var(--black);
+  outline-offset: 3px;
+}
+
+/* Filtered out */
+.item.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Images that aren't classified yet can't be opened */
+.item.is-unclassified {
+  cursor: default;
+}
+
+.item--image.is-unclassified:hover {
+  transform: none;
+}
+
+/* ---------- 5. Lightbox ---------- */
+:root {
+  --card-gray: #d9d9d9;
+  --empty-gray: #bfbfbf;         /* image slot when an item has no image */
+  --zoom-speed: 0.45s;
+}
+
+/* Archive fades back while a card is open (same as filtering) */
+.archive {
+  transition: opacity var(--speed) ease;
+}
+
+.archive.is-dimmed {
+  opacity: 0.08;
+}
+
+/* No hover effects on archive items while a card is open or closing */
+.page.has-lightbox .item {
+  pointer-events: none;
+}
+
+.lightbox {
+  position: absolute;
+  inset: 0;
+  z-index: 95;                   /* above every archive item (even hovered ones), below the header */
+}
+
+.lightbox[hidden] {
+  display: none;
+}
+
+.lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  cursor: pointer;               /* click outside the card to close */
+}
+
+/* The card grows from the clicked item to its open size (set in script.js) */
+.card {
+  position: absolute;
+  overflow: hidden;
+  border: 3px solid var(--black);
+  background: var(--card-gray);
+  cursor: pointer;               /* click the card to close */
+  transition:
+    left var(--zoom-speed) cubic-bezier(0.2, 0.8, 0.2, 1),
+    top var(--zoom-speed) cubic-bezier(0.2, 0.8, 0.2, 1),
+    width var(--zoom-speed) cubic-bezier(0.2, 0.8, 0.2, 1),
+    height var(--zoom-speed) cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.card.no-animation {
+  transition: none;
+}
+
+/* Card content: fixed width, height grows with long titles.
+   It fades in once the card has grown. */
+.card-inner {
+  display: flex;
+  gap: 14px;
+  width: max-content;            /* card width follows the photo */
+  min-height: 300px;
+  padding: 16px 20px 18px 20px;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.lightbox.is-open .card-inner {
+  opacity: 1;
+  transition-delay: 0.2s;
+}
+
+.card-media {
+  flex: 0 0 auto;
+  align-self: flex-start;
+  margin: 0;
+}
+
+/* The photo keeps its own proportions (never cropped).
+   It fits inside 420 × 380; the card grows or shrinks around it. */
+.card-media img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 420px;
+  max-height: 380px;
+}
+
+/* No photo: plain gray box */
+.card-media.is-empty {
+  width: 220px;
+  height: 300px;
+  background: var(--empty-gray);
+}
+
+
+.card-text {
+  display: flex;
+  flex: 0 0 330px;               /* text column keeps the same width in every card */
+  width: 330px;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.card-title {
+  margin: 0 0 8px;
+  font-size: 46px;
+  font-weight: 400;
+  line-height: 1.05;
+  text-transform: uppercase;
+  white-space: pre-line;
+}
+
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.card-label {
+  margin: 0 4px 0 6px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Tags in the card are labels only (not clickable) */
+.card-pill {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 7px;
+  border: 1px solid var(--black);
+  border-radius: 12px;
+  background: var(--white);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
+}
+
+/* TYPE pill in the card uses its category color; WHO TO BLAME pill is square */
+.card-pill--type {
+  border: 1.5px solid var(--cat-color);
+}
+
+
+
+.card-description {
+  margin: auto 0 0;              /* pushed to the bottom of the card */
+  padding-top: 20px;
+  font-size: 17px;
+  line-height: 1.35;
+  /* sentence case: written as-is in script.js */
+}
+
+/* CLOSE above the card, PREV / NEXT below it */
+.card-controls {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.lightbox.is-open .card-controls {
+  opacity: 1;
+  transition-delay: 0.3s;
+}
+
+.card-close {
+  position: absolute;
+  right: 0;
+  top: -30px;
+}
+
+.card-nav {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -32px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-control {
+  padding: 2px 0;
+  border: none;
+  background: none;
+  color: var(--black);
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.card-control:hover {
+  text-decoration: underline;
+}
+
+.card-control:focus-visible {
+  outline: 2px solid var(--black);
+  outline-offset: 3px;
+}
+
+/* ---------- 5b. Hover note on images ---------- */
+.item-note {
+  position: absolute;
+  z-index: 91;                   /* above items (even the hovered one at 90), below the lightbox */
+  max-width: 230px;
+  padding: 8px 10px 9px;
+  border: 1.5px solid var(--cat-color, var(--black));
+  background: var(--white);
+  box-shadow:
+    0 0 3px color-mix(in srgb, var(--cat-color, #000) 95%, transparent),
+    0 0 14px color-mix(in srgb, var(--cat-color, #000) 65%, transparent),
+    3px 5px 10px rgba(0, 0, 0, 0.18);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.item-note.is-visible {
+  opacity: 1;
+}
+
+.item-note[hidden] {
+  display: none;
+}
+
+.item-note-title {
+  margin: 0 0 6px;
+  font-size: 17px;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+.item-note-meta {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+/* ---------- 5c. About page ---------- */
+.about {
+  position: absolute;
+  inset: 0;
+  z-index: 97;                   /* above the archive and lightbox, below the header */
+  background: var(--white);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.about.is-open {
+  opacity: 1;
+}
+
+.about[hidden] {
+  display: none;
+}
+
+.about-inner {
+  /* one centered column */
+  width: 1000px;
+  margin: 170px auto 0;
+  text-align: center;
+}
+
+.about-heading {
+  margin: 0 0 36px;
+  font-size: 52px;
+  font-weight: 500;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.about-text p {
+  margin: 0 0 30px;
+  font-size: 29px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.about-key {
+  margin-top: 80px;
+}
+
+.about-key-title {
+  margin: 0 0 8px;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.about-key-text {
+  margin: 0 0 10px;
+  font-size: 17px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.about-key-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 40px;
+}
+
+/* ---------- 6. Accessibility helper ---------- */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
+
+
+/* =========================================================
+   CAPTCHA overlay
+   ========================================================= */
+.captcha-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;                 /* above everything on the site */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.8);  /* archive stays faintly visible behind */
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  transition: background 0.5s ease, backdrop-filter 0.5s ease, -webkit-backdrop-filter 0.5s ease;
+}
+
+/* While the title flies into place, the overlay clears */
+.captcha-overlay.is-leaving {
+  background: rgba(255, 255, 255, 0);
+  -webkit-backdrop-filter: blur(0);
+  backdrop-filter: blur(0);
+}
+
+.title-flight img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.captcha-overlay.is-leaving .captcha-box {
+  opacity: 0;
+}
+
+.captcha-box {
+  transition: opacity 0.3s ease;
+}
+
+.captcha-overlay[hidden] {
+  display: none;
+}
+
+.captcha-box {
+  width: 444px;                  /* 400px image + padding + border */
+  max-width: 100%;
+  max-height: 100%;
+  overflow: auto;
+  border: 2px solid var(--black);
+  border-radius: 0;
+  background: var(--white);
+  color: var(--black);
+  font-family: var(--font);
+}
+
+/* Old-system title bar */
+.captcha-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+  background: var(--black);
+  color: var(--white);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+
+.captcha-skip {
+  padding: 2px 6px;
+  border: 1px solid var(--white);
+  border-radius: 0;
+  background: none;
+  color: var(--white);
+  font-family: var(--font);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+
+.captcha-skip:hover {
+  background: var(--white);
+  color: var(--black);
+}
+
+.captcha-step {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+}
+
+.captcha-step[hidden] {
+  display: none;
+}
+
+.captcha-image {
+  display: block;
+  width: 400px;
+  max-width: 100%;
+  height: auto;                  /* keeps the original proportions (~400 × 148) */
+  border: 1px solid var(--black);
+}
+
+.captcha-text {
+  font-size: 18px;
+}
+
+.captcha-row {
+  display: flex;
+  gap: 8px;
+}
+
+.captcha-input {
+  flex: 1;
+  min-width: 0;
+  height: 40px;
+  padding: 0 10px;
+  border: 2px solid var(--black);
+  border-radius: 0;
+  background: var(--white);
+  color: var(--black);
+  font-family: var(--font);
+  font-size: 20px;
+  outline: none;
+}
+
+.captcha-input:focus {
+  background: #f0f0f0;
+}
+
+.captcha-button {
+  height: 40px;
+  padding: 0 18px;
+  border: 2px solid var(--black);
+  border-radius: 0;
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font);
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
+.captcha-button:hover {
+  background: var(--white);
+  color: var(--black);
+}
+
+.captcha-error,
+.captcha-result {
+  margin: 0;
+  font-size: 17px;
+}
+
+/* the error line only takes space when there is an error */
+.captcha-error:empty {
+  display: none;
+}
+
+/* each NO opens the "next window": the box jumps a little, like a new popup */
+.captcha-box.is-popping {
+  animation: captcha-pop 0.25s steps(2, end);
+}
+
+@keyframes captcha-pop {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.captcha-statement {
+  margin: 0;
+  font-size: 40px;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+/* Square, sharp checkbox */
+.captcha-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.captcha-check input {
+  appearance: none;
+  flex: 0 0 22px;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  border: 2px solid var(--black);
+  border-radius: 0;
+  background: var(--white);
+  cursor: pointer;
+}
+
+.captcha-check input:checked {
+  background: var(--black);
+  box-shadow: inset 0 0 0 3px var(--white); /* inner white ring, flat */
+}
+
+.captcha-enter {
+  /* The site title image, large. When clicked, it shrinks into the title at the top-left. */
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.captcha-enter img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.captcha-enter:hover {
+  opacity: 0.85;
+}
+
+.captcha-enter:focus-visible {
+  outline: 2px solid var(--black);
+  outline-offset: 3px;
+}
+
+/* The copy that flies to the title position */
+.title-flight {
+  position: fixed;
+  z-index: 2000;
+  margin: 0;
+  transform-origin: top left;
+  transition: transform 0.7s cubic-bezier(0.7, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+
+.captcha-skip:focus-visible,
+.captcha-button:focus-visible,
+.captcha-check input:focus-visible {
+  outline: 2px solid var(--black);
+  outline-offset: 3px;
+}
+
+.captcha-skip:focus-visible {
+  outline-color: var(--white);
+}
+
+/* Anything hidden inside the CAPTCHA stays hidden */
+.captcha-box [hidden] {
+  display: none !important;
+}
+
+/* About page tags: same size as the filter tags in the header */
+.about-key-row .card-pill {
+  height: 30px;
+  padding: 0 9px;
+  border-radius: 14px;
+  font-size: 15px;
+}
